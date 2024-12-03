@@ -4,13 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Enkelt Spill med JavaScript</title>
+    <title>Emerald Catcher</title>
 </head>
 <body>
     <div id="spillområde">
-        <div id="spiller"></div>
-        <div id="ball"></div>
+        <div id="spiller"><img src="villager.png" alt="bøsh"></div>
+        <div id="emerald"><img src="wow.png" alt="emerald"></div>
+        <div id="poeng">Poeng: <span id="poengTeller">0</span></div>
+        <div id="liv"><img src="heart.png" alt="heart"></div>
+    </div>
+    <div id="gameOver" class="hidden">
+        <h2>Spillet er over!</h2>
+        <p id="resultat"></p>
+        <button id="restartKnapp">Start på nytt</button>
     </div>
     <script src="script.js"></script>
 </body>
 </html>
+

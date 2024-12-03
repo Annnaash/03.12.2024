@@ -7,7 +7,11 @@
 #spillområde {
     width: 800px;
     height: 600px;
-    background-color: lightblue;
+    background-image: url('background.jpg');
+    /* background-color: lightblue; */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     position: relative;
     overflow: hidden;
     margin: 20px auto;
@@ -15,21 +19,78 @@
 }
 
 #spiller {
-    width: 50px;
-    height: 50px;
-    background-color: red;
+    width: 70px;
+    height: 70px;
     position: absolute;
     bottom: 0;
     left: 375px;
 }
 
-#ball {
+#spiller img {
+    width: 100%;
+    height: 100%;
+}
+
+#emerald {
     width: 30px;
     height: 30px;
-    background-color: yellow;
     position: absolute;
-    border-radius: 50%;
     top: 0;
     left: 50%;
     transform: translateX(-50%);
 }
+
+#emerald img {
+    width: 100%;
+    height: 100%;
+}
+
+#poeng {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+}
+
+#liv {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    gap: 5px;
+    filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
+}
+
+.heart {
+    width: 24px;
+    height: 24px;
+    background-image: url('heart.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+#gameOver {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.hidden {
+    display: none;
+}
+
+#restartKnapp {
+    margin-top: 10px;
+    padding: 5px 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+

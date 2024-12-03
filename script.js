@@ -1,9 +1,19 @@
 let spiller = document.getElementById("spiller");
-let ball = document.getElementById("ball");
+let emerald = document.getElementById("emerald");
 let spillområde = document.getElementById("spillområde");
+let poengTeller = document.getElementById("poengTeller");
+let livElement = document.getElementById("liv");
+let gameOverElement = document.getElementById("gameOver");
+let resultatElement = document.getElementById("resultat");
+let restartKnapp = document.getElementById("restartKnapp");
 
 let spillerPos = 375;
+let poeng = 0;
+let liv = 5;
+let emeraldFallHastighet = 2;
+
 document.addEventListener("keydown", flyttSpiller);
+restartKnapp.addEventListener("click", startSpillPåNytt);
 
 function flyttSpiller(e) {
     if (e.key === "ArrowLeft" && spillerPos > 0) {
@@ -15,30 +25,76 @@ function flyttSpiller(e) {
     spiller.style.left = spillerPos + "px";
 }
 
-let ballPos = { x: Math.random() * (spillområde.clientWidth - 30), y: 0 };
-let ballFallHastighet = 2;
+let emeraldPos = { x: Math.random() * (spillområde.clientWidth - 30), y: 0 };
 
-function oppdaterBall() {
-    ballPos.y += ballFallHastighet;
+function oppdaterEmerald() {
+    emeraldPos.y += emeraldFallHastighet;
 
-    if (ballPos.y > spillområde.clientHeight - spiller.clientHeight - ball.clientHeight &&
-        ballPos.x > spillerPos &&
-        ballPos.x < spillerPos + spiller.clientWidth) {
-        alert("Du fanget ballen!");
-        ballPos.y = 0;
-        ballPos.x = Math.random() * (spillområde.clientWidth - 30);
-        ballFallHastighet += 0.5;
+    if (emeraldPos.y > spillområde.clientHeight - spiller.clientHeight - emerald.clientHeight &&
+        emeraldPos.x > spillerPos - emerald.clientWidth &&
+        emeraldPos.x < spillerPos + spiller.clientWidth) {
+        poeng++;
+        poengTeller.textContent = poeng;
+        resetEmerald();
+        emeraldFallHastighet += 0.05;
+
+        if (poeng >= 100) {
+            avsluttSpill(true);
+        }
     }
 
-    if (ballPos.y > spillområde.clientHeight) {
-        ballPos.y = 0;
-        ballPos.x = Math.random() * (spillområde.clientWidth - 30);
+    if (emeraldPos.y > spillområde.clientHeight) {
+        liv--;
+        oppdaterLiv();
+        resetEmerald();
+
+        if (liv <= 0) {
+            avsluttSpill(false);
+        }
     }
 
-    ball.style.top = ballPos.y + "px";
-    ball.style.left = ballPos.x + "px";
+    emerald.style.top = emeraldPos.y + "px";
+    emerald.style.left = emeraldPos.x + "px";
 
-    requestAnimationFrame(oppdaterBall);
+    if (liv > 0 && poeng < 100) {
+        requestAnimationFrame(oppdaterEmerald);
+    }
 }
 
-oppdaterBall();
+function resetEmerald() {
+    emeraldPos.y = 0;
+    emeraldPos.x = Math.random() * (spillområde.clientWidth - 30);
+}
+
+function oppdaterLiv() {
+    livElement.innerHTML = '';
+    for (let i = 0; i < liv; i++) {
+        let heart = document.createElement('div');
+        heart.className = 'heart';
+        livElement.appendChild(heart);
+    }
+}
+
+function avsluttSpill(harVunnet) {
+    gameOverElement.classList.remove("hidden");
+    if (harVunnet) {
+        resultatElement.textContent = "Gratulerer! Du vant med " + poeng + " poeng!";
+    } else {
+        resultatElement.textContent = "Game over! Du fikk " + poeng + " poeng.";
+    }
+}
+
+function startSpillPåNytt() {
+    poeng = 0;
+    liv = 3;
+    emeraldFallHastighet = 2;
+    poengTeller.textContent = poeng;
+    oppdaterLiv();
+    resetEmerald();
+    gameOverElement.classList.add("hidden");
+    oppdaterEmerald();
+}
+
+oppdaterLiv();
+oppdaterEmerald();
+
